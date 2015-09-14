@@ -1,0 +1,9 @@
+1.0.4
+ - control de procesos (nxprocesosbatch)
+ - separar comunicación not y acuses
+ - tareas de lunes a viernes.
+
+1.0.5 
+ - Añadir fecha al ejecutar procesos, fecha de última ejecución
+ - actualizar a comunes 1.0.46
+ - Se separa la carga de encargos de telemáticas para poder modificar frecuencia de ejecución

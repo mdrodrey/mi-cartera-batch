@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       	xmlns:http="http://cxf.apache.org/transports/http/configuration"
+		xmlns:soap="http://cxf.apache.org/bindings/soap"
+    	xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+       	http://www.springframework.org/schema/beans 
+       	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       	http://www.springframework.org/schema/tx
+     	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+     	 
+     	 http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd      
+         http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd
+         http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+	
+	  <context:component-scan base-package="org.grecasa.batch.facade" scoped-proxy="targetClass"/>
+	  <context:component-scan base-package="org.grecasa.batch.aspect"	scoped-proxy="targetClass" />
+	  <context:component-scan base-package="org.grecasa.batch.service" scoped-proxy="targetClass"/>
+	  <context:component-scan base-package="org.grecasa.batch.scheduler" scoped-proxy="targetClass"/>
+<!-- 	  <bean name="batchAspect" class="org.grecasa.batch.aspect.BatchAspect" factory-method="aspectOf"/> -->
+
+
+	<import resource="classpath*:META-INF/spring-config-mail-service.xml"/> 
+
+	<import resource="classpath*:META-INF/spring/config-des.xml"/>
+	
+	
+	
+	<bean name="entorno" class="java.lang.Integer">
+		<constructor-arg type="int"><value>0</value></constructor-arg>
+	</bean>
+
+	<!-- DataSource para cambiar password (se conecta a la master) -->  
+	<bean name="dataSourceConexion" class="org.grecasa.intranet.notifex.ds.SQLServerDataSource">
+		<constructor-arg type="int"><ref bean="entorno" /></constructor-arg>
+		<constructor-arg>
+			<list>
+				<value>10.141.117.249</value>
+				<value>10.141.117.226</value>
+				<value>10.141.117.240</value>	
+				<value>10.141.117.154</value>				
+			</list>	
+		</constructor-arg>
+		<constructor-arg>
+			<list>
+				<value>master</value>
+			</list>
+		</constructor-arg>
+		<constructor-arg>
+			<list>
+				<value></value>
+			</list>
+		</constructor-arg>
+		<constructor-arg>
+			<list>
+				<value></value>
+			</list>
+		</constructor-arg>
+		<!-- minimoPool -->
+		<!-- <constructor-arg> <value>5</value> </constructor-arg> -->
+		<!-- maximoPool -->
+		<!-- <constructor-arg> <value>50</value> </constructor-arg> -->
+		<!-- inicioPool -->
+		<!-- <constructor-arg> <value>2</value> </constructor-arg> -->
+		<!-- maxIdleTime -->
+		<!-- <constructor-arg> <value>0</value> </constructor-arg> -->
+		<!-- idleConnectionTestPeriod -->
+		<!-- <constructor-arg> <value>3600</value> </constructor-arg> -->
+		<!-- acquireIncrement -->
+		<!-- <constructor-arg> <value>1</value> </constructor-arg> -->
+		<!-- preferredTestQuery -->
+		<!-- <constructor-arg> <value>Select 1;</value> </constructor-arg> -->
+	</bean> 
+	
+	<bean id="dataSource" class="org.grecasa.intranet.notifex.ds.SQLServerDataSource">
+		<constructor-arg type="int"><ref bean="entorno" /></constructor-arg>
+		<constructor-arg>
+			<list>
+				<value>172.19.101.49</value>
+				<value>10.141.117.226</value>
+				<value>10.141.117.240</value>
+				<value>10.141.117.154</value>				
+			</list>	
+		</constructor-arg>
+		<constructor-arg>
+			<list>
+				<value>recaudacion</value>
+				<value>recaudacion</value>
+				<value>recaudacion</value>
+				<value>recaudacion</value>
+			</list>
+		</constructor-arg>
+		<constructor-arg>
+			<list>
+				<value>grlp0012</value>
+				<value>grlp0012</value>
+				<value>grlp0012</value>
+				<value>grlp0012</value>
+			</list>
+		</constructor-arg>
+		<constructor-arg>
+			<list>
+				<value>M9fJqeDkHz4Ngm0EFvX9og==</value>
+				<value>M9fJqeDkHz4Ngm0EFvX9og==</value>
+				<value>M9fJqeDkHz4Ngm0EFvX9og==</value>
+				<value>M9fJqeDkHz4Ngm0EFvX9og==</value>
+			</list>
+		</constructor-arg>	
+		<!-- minimoPool -->
+		<!-- <constructor-arg> <value>5</value> </constructor-arg> -->
+		<!-- maximoPool -->
+		<!-- <constructor-arg> <value>50</value> </constructor-arg> -->
+		<!-- inicioPool -->
+		<!-- <constructor-arg> <value>2</value> </constructor-arg> -->
+		<!-- maxIdleTime -->
+		<!-- <constructor-arg> <value>0</value> </constructor-arg> -->
+		<!-- idleConnectionTestPeriod -->
+		<!-- <constructor-arg> <value>3600</value> </constructor-arg> -->
+		<!-- acquireIncrement -->
+		<!-- <constructor-arg> <value>1</value> </constructor-arg> -->
+		<!-- preferredTestQuery -->
+		<!-- <constructor-arg> <value>Select 1;</value> </constructor-arg> -->
+	</bean>	
+	
+	<bean name="ficheroLog" class="java.lang.String"> 
+		<constructor-arg ><value>c:/temp/logs/testbatch.log</value></constructor-arg>
+	</bean>	
+
+	<bean name="insert-tabla-log" class="java.lang.String">
+		<constructor-arg>
+			<value>
+				${insert-tabla-log}
+			</value>
+		</constructor-arg>
+	</bean>
+	
+	<!-- lista de mails a los que se envían los errores en los  -->
+	<util:list id="mailListBatch" value-type="java.lang.String">
+		<value>mrodriguez@grecasa.org</value>	
+		<value>calmeida@grecasa.org</value>                                                        
+		<value>ejimenez@grecasa.org</value>                              
+		<value>rcabrera@grecasa.org</value>                              	
+	</util:list>
+	
+	<!-- lista de mail a los que se envían las alertas -->
+	<util:list id="mailListAlertas" value-type="java.lang.String">
+		<value>calmeida@grecasa.org</value>                              
+		<value>mrodriguez@grecasa.org</value>                            
+		<value>rcabrera@grecasa.org</value>                              
+		<value>ejimenez@grecasa.org</value>                              
+		<value>mlsamper@grecasa.org</value>                              
+		<value>tsantana@grecasa.org</value>                              
+		<value>mflores@grecasa.org</value>                               	
+	</util:list>
+	
+</beans>
